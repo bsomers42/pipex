@@ -1,0 +1,9 @@
+// Haal alles binnen met argv/argc
+// Run 1e command en sluis het door via fd's?
+
+Video van spanjaard: https://www.youtube.com/watch?v=6xbLgZpOBi8
+Blog (via abba): https://www.rozmichelle.com/pipes-forks-dups/ 
+
+Docs:
+https://www.gnu.org/software/libc/manual/html_node/Creating-a-Pipe.html
+https://tldp.org/LDP/lpg/node11.html#:~:text=To%20create%20a%20simple%20pipe,be%20used%20for%20the%20pipeline. 
