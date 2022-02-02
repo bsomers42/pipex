@@ -6,7 +6,7 @@
 /*   By: bsomers <bsomers@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/31 10:30:34 by bsomers       #+#    #+#                 */
-/*   Updated: 2022/02/02 17:50:33 by bsomers       ########   odam.nl         */
+/*   Updated: 2022/02/02 18:51:03 by bsomers       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,6 +223,45 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
+static char	*joinstr(char *s1, char *s2, char *sdef)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (s1[i] != '\0')
+	{
+		sdef[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		sdef[i] = s2[j];
+		i++;
+		j++;
+	}
+	sdef[i] = '\0';
+	return (sdef);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*sdef;
+	int		i;
+	int		j;
+
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	i = ft_strlen(s1);
+	j = ft_strlen(s2);
+	sdef = malloc((i + j + 1) * (sizeof(unsigned char)));
+	if (sdef == NULL)
+		return (NULL);
+	sdef = joinstr((char *)s1, (char *)s2, sdef);
+	return (sdef);
+}
+
 
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -237,7 +276,6 @@ int	main(int argc, char *argv[], char *envp[])
 	char *path2;
 	char *origpath;
 	char **path;
-	int comp = 0;
 	int p = 0;
 		// envp[6] is PATH;
 
@@ -249,30 +287,51 @@ int	main(int argc, char *argv[], char *envp[])
 	origpath = ft_strtrim(envp[6], "PATH=");
 	path = ft_split(origpath, ':'); //aantal paden: 8
 	free (origpath);
+	while (p < 8)
+	{
+		printf("Pathname %d: %s\n", p, path[p]);
+		p++;
+	}
 
 	cmd1 = ft_split(argv[2], ' ');
 	cmd2 = ft_split(argv[3], ' ');
+	p = 0;
+	while (p < 8)
+	{
+		origpath = ft_strjoin(path[p], "/");
+		origpath = ft_strjoin(origpath, cmd1[0]);
+		printf("Origpath %d: %s\n", p, origpath);
+		if (access(origpath, F_OK) == 0)
+			break;
+		free(origpath);
+		p++;
+	}
+	printf("P after break: %d\n", p);
+	if (p == 8)
+		return (0); //put error message here! No correct path given.
+	p = 0;
+	path1 = ft_strdup(origpath);
+	free (origpath);
+	printf("Path1: %s\n", path1);
 
 	while (p < 8)
 	{
-		comp = ft_strncmp(cmd1[0], path[p], 50);
-		printf("Comp: %d, p: %d, cmd1[0]: %s\n", comp, p, cmd1[0]);
-		if (comp != 0)
+		origpath = ft_strjoin(path[p], "/");
+		origpath = ft_strjoin(origpath, cmd2[0]);
+		printf("Origpath %d: %s\n", p, origpath);
+		if (access(origpath, F_OK) == 0)
 			break;
+		free(origpath);
 		p++;
 	}
-	return (0);
-	path1 = ft_strdup(path[p - 1]);
-	p = 0;
-	while (comp == 0)
-	{
-		comp = ft_strncmp(cmd2[0], path[p], 50);
-		p++;
-	}
-	path2 = ft_strdup(path[p - 1]);
+	printf("P after break: %d\n", p);
+	if (p == 8)
+		return (0); //put error message here! No correct path given.
 
-	// path1 = "/bin/ls";
-	// path2 = "/bin/cat";
+	p = 0;
+	path2 = ft_strdup(origpath);
+	free (origpath);
+	printf("Path2: %s\n", path2);
 
 	pipe(fds);
 	if (fds < 0)
