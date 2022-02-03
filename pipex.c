@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   pipex.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: bsomers <bsomers@student.codam.nl>           +#+                     */
+/*   By: bsomers <bsomers@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/31 10:30:34 by bsomers       #+#    #+#                 */
-/*   Updated: 2022/02/02 18:51:03 by bsomers       ########   odam.nl         */
+/*   Updated: 2022/02/03 16:54:10 by bsomers       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,6 +277,7 @@ int	main(int argc, char *argv[], char *envp[])
 	char *origpath;
 	char **path;
 	int p = 0;
+	int i = 0;
 		// envp[6] is PATH;
 
 	if (argc != 5)
@@ -284,7 +285,17 @@ int	main(int argc, char *argv[], char *envp[])
 		write(1, "X", 1);
 		return (-1);
 	}
-	origpath = ft_strtrim(envp[6], "PATH=");
+
+	while(envp)
+	{
+		p = ft_strncmp(envp[i], "PATH=", 5);
+		printf("p = %d, i = %i, envp = %s\n", p, i, envp[i]);
+		if (p == 0)
+			break;
+		i++;
+	}
+	// p = 0;
+	origpath = ft_strtrim(envp[i], "PATH=");
 	path = ft_split(origpath, ':'); //aantal paden: 8
 	free (origpath);
 	while (p < 8)
@@ -334,8 +345,8 @@ int	main(int argc, char *argv[], char *envp[])
 	printf("Path2: %s\n", path2);
 
 	pipe(fds);
-	if (fds < 0)
-		return (1);
+	// if (fds < 0)
+	// 	return (1);
 	pid1 = fork();
 	if (pid1 < 0)
 		return (1);
