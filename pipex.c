@@ -6,23 +6,11 @@
 /*   By: bsomers <bsomers@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/01/31 10:30:34 by bsomers       #+#    #+#                 */
-/*   Updated: 2022/02/04 11:28:05 by bsomers       ########   odam.nl         */
+/*   Updated: 2022/02/04 12:21:28 by bsomers       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <stdio.h> //REMOVE THIS ONE
-#include <stdlib.h>
-#include <unistd.h>
-#include "./libft/libft.h"
-
-typedef struct s_info
-{
-	char	*path1;
-	char	*path2;
-	char	**cmd1;
-	char	**cmd2;
-}				t_info; //REMOVE THIS TO HEADER!
+#include "pipex.h"
 
 void	child_process1(t_info *cmd_path, char *argv[], int *fds)
 {
@@ -72,45 +60,6 @@ int	pipe_and_fork(t_info *cmd_path, char *argv[])
 	waitpid(pid1, NULL, 0);
 	waitpid(pid2, NULL, 0);
 	return (0);
-}
-
-char	*make_and_check_paths(char **paths, char **cmd)
-{
-	int		p;
-	char	*path;
-
-	p = 0;
-	path = NULL;
-	while (p < 8)
-	{
-		path = ft_strjoin(paths[p], "/");
-		path = ft_strjoin(path, cmd[0]);
-		if (access(path, F_OK) == 0)
-			break ;
-		free(path);
-		p++;
-	}
-	// if (p == 8)
-	// 	return (NULL); //put error message here! No correct path given.
-	// ^^left this out, because if no path is found, path will still be NULL
-	return (path);
-}
-
-int	find_path(char *envp[])
-{
-	int	p;
-	int	i;
-
-	p = 0;
-	i = 0;
-	while (envp)
-	{
-		p = ft_strncmp(envp[i], "PATH=", 5);
-		if (p == 0)
-			break ;
-		i++;
-	}
-	return (i);
 }
 
 int	pipex(int argc, char *argv[], char *envp[])
