@@ -6,7 +6,7 @@
 /*   By: bsomers <bsomers@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/04 10:09:19 by bsomers       #+#    #+#                 */
-/*   Updated: 2022/02/04 12:20:38 by bsomers       ########   odam.nl         */
+/*   Updated: 2022/02/04 12:30:38 by bsomers       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@
 
 typedef struct s_info
 {
-	char *path1;
-    char *path2;
-    char **cmd1;
-    char **cmd2;
+	char	*path1;
+	char	*path2;
+	char	**cmd1;
+	char	**cmd2;
 }				t_info;
 
 char	*make_and_check_paths(char **paths, char **cmd);
-int	find_path(char *envp[]);
+int		find_path(char *envp[]);
 
 #endif
