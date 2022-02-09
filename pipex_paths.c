@@ -6,9 +6,11 @@
 /*   By: bsomers <bsomers@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/04 12:19:58 by bsomers       #+#    #+#                 */
-/*   Updated: 2022/02/04 12:22:35 by bsomers       ########   odam.nl         */
+/*   Updated: 2022/02/09 15:54:54 by bsomers       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdio.h> //!!!remove
 
 #include "pipex.h"
 
@@ -22,7 +24,9 @@ char	*make_and_check_paths(char **paths, char **cmd)
 	while (p < 8)
 	{
 		path = ft_strjoin(paths[p], "/");
+			//malloc protecten!
 		path = ft_strjoin(path, cmd[0]);
+			//malloc protecten
 		if (access(path, F_OK) == 0)
 			break ;
 		free(path);
