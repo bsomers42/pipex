@@ -6,34 +6,34 @@
 #    By: bsomers <bsomers@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/04 12:14:27 by bsomers       #+#    #+#                  #
-#    Updated: 2022/02/04 12:20:50 by bsomers       ########   odam.nl          #
+#    Updated: 2022/02/19 18:02:53 by bsomers       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = pipex.a
+NAME = pipex
 
 LIBFT = libft
 
-O_FILES = pipex.o \
-			pipex_paths.c
-
-SRC = $(O_FILES:.o=.c)
+SRC = pipex.c \
+	  pipex_paths.c
 
 HEADER = pipex.h
 
 CFLAGS = -Wall -Wextra -Werror
 
-OBJ = $(O_FILES)
+OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-		@make -C $(LIBFT)
-		@cp libft/libft.a ./$(NAME)
-		ar rcs $@ $^
+$(NAME): $(OBJ) $(LIBFT).a
+		$(CC) $(CFLAGS) -L. -lft $(OBJ) -o $(NAME)
 
 %.o: %.c $(HEADER)
 		$(CC) -c $(CFLAGS) -o $@ $<
+
+$(LIBFT).a:
+	@make -C $(LIBFT)
+	@cp $(LIBFT)/$(LIBFT).a .
 
 bonus: $(NAME)
 
