@@ -6,7 +6,7 @@
 #    By: bsomers <bsomers@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/04 12:14:27 by bsomers       #+#    #+#                  #
-#    Updated: 2022/02/19 18:02:53 by bsomers       ########   odam.nl          #
+#    Updated: 2022/02/23 16:49:51 by bsomers       ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,9 @@ NAME = pipex
 LIBFT = libft
 
 SRC = pipex.c \
-	  pipex_paths.c
+	  pipex_paths.c \
+	  pipex_cmd.c \
+	  pipex_utils.c
 
 HEADER = pipex.h
 
