@@ -6,7 +6,7 @@
 /*   By: bsomers <bsomers@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/04 10:09:19 by bsomers       #+#    #+#                 */
-/*   Updated: 2022/02/19 18:36:26 by bsomers       ########   odam.nl         */
+/*   Updated: 2022/02/23 16:49:39 by bsomers       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,13 @@ typedef struct s_pip
 	int		here_doc;
 }				t_pip;
 
-void	if_error(char *str);
 void	split_cmd_args(t_pip *cmd_path, char *argv[], t_pip *doc);
 char	*make_and_check_paths(char **paths, char **cmd);
 int		find_path(char *envp[]);
+void	free_array(char **str);
+void	free_struct(t_pip *cmd_path);
+void	if_error(char *str);
+void	if_error2(char *str);
+void	handle_here_doc(char *argv[]);
 
 #endif
