@@ -6,7 +6,7 @@
 /*   By: bsomers <bsomers@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/23 16:48:07 by bsomers       #+#    #+#                 */
-/*   Updated: 2022/02/23 16:50:44 by bsomers       ########   odam.nl         */
+/*   Updated: 2022/02/28 11:50:11 by bsomers       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**check_if_cmd_is_path(char **arr, t_pip *doc)
 			free(temp);
 		}
 		if (arr[i] == NULL)
-			if_error(NULL);
+			if_error();
 		i++;
 	}
 	return (arr);
@@ -93,7 +93,7 @@ void	split_cmd_args(t_pip *cmd_path, char *argv[], t_pip *doc)
 	else
 		cmd_path->cmd2 = ft_split(argv[3], ' ');
 	if (cmd_path->cmd1 == NULL || cmd_path->cmd2 == NULL)
-		if_error(NULL);
+		if_error();
 	cmd_path->cmd1 = check_if_cmd_is_path(cmd_path->cmd1, doc);
 	cmd_path->cmd2 = check_if_cmd_is_path(cmd_path->cmd2, doc);
 	cmd_path->cmd1 = check_and_trim_apos(cmd_path->cmd1);
