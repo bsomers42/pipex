@@ -6,7 +6,7 @@
 /*   By: bsomers <bsomers@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/23 15:17:19 by bsomers       #+#    #+#                 */
-/*   Updated: 2022/02/23 16:46:25 by bsomers       ########   odam.nl         */
+/*   Updated: 2022/03/09 11:32:47 by bsomers       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,40 +33,26 @@ void	free_struct(t_pip *cmd_path)
 	free_array(cmd_path->cmd2);
 }
 
-void	if_error(char *str)
+void	if_error(void)
 {
-	ft_putstr_fd("\033[0;31m\e[1mERROR \U0001F4A5\e[0m ", 2);
-	if (str == NULL)
-		ft_putstr_fd("Malloc error!\n", 2);
-	else if (ft_strncmp(str, "open", 4) == 0)
-		ft_putstr_fd("Open error!\n", 2);
-	else if (ft_strncmp(str, "gnl", 3) == 0)
-		ft_putstr_fd("Error in running get_next_line!\n", 2);
-	else if (ft_strncmp(str, "unlink", 6) == 0)
-		ft_putstr_fd("Unlink error!\n", 2);
-	else if (ft_strncmp(str, "no_path", 7) == 0)
-		ft_putstr_fd("No path available\n", 2);
-	else if (ft_strncmp(str, "cmd", 3) == 0)
-		ft_putstr_fd("Command not found\n", 2);
-	exit(1);
+	ft_putstr_fd("\033[0;\e[1mPipex error: \e[0m ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
+	if (unlink("here.txt") > 0)
+		if_error();
+	exit(EXIT_FAILURE);
 }
 
-void	if_error2(char *str)
+void	wait_children(int pid1, int pid2)
 {
-	ft_putstr_fd("\033[0;31m\e[1mERROR \U0001F4A5\e[0m ", 2);
-	if (ft_strncmp(str, "dup2", 4) == 0)
-		ft_putstr_fd("Dup2 error in child process!\n", 2);
-	else if (ft_strncmp(str, "close", 5) == 0)
-		ft_putstr_fd("Close error in child process!\n", 2);
-	else if (ft_strncmp(str, "execve", 6) == 0)
-		ft_putstr_fd("Execve error in child process!\n", 2);
-	else if (ft_strncmp(str, "pipe", 4) == 0)
-		ft_putstr_fd("Pipe error!\n", 2);
-	else if (ft_strncmp(str, "fork", 4) == 0)
-		ft_putstr_fd("Fork error!\n", 2);
-	else if (ft_strncmp(str, "waitpid", 7) == 0)
-		ft_putstr_fd("Waitpid error!\n", 2);
-	exit(1);
+	int	wexit;
+
+	if (waitpid(pid1, NULL, 0) < 0)
+		if_error();
+	if (waitpid(pid2, &wexit, 0) < 0)
+		if_error();
+	if (WIFEXITED(wexit))
+		exit(WEXITSTATUS(wexit));
 }
 
 void	handle_here_doc(char *argv[])
@@ -79,12 +65,12 @@ void	handle_here_doc(char *argv[])
 	str = NULL;
 	fd = open("here.txt", O_CREAT | O_RDWR | O_APPEND, 0707);
 	if (fd < 0)
-		if_error("open");
+		if_error();
 	while (cmp != 0)
 	{
 		str = get_next_line(STDIN_FILENO);
 		if (str == NULL)
-			if_error("gnl");
+			if_error();
 		cmp = ft_strncmp(str, argv[2], ft_strlen(argv[2]));
 		if (cmp == 0)
 			break ;
