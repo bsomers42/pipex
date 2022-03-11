@@ -6,7 +6,7 @@
 /*   By: bsomers <bsomers@student.codam.nl>           +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/02/23 16:48:07 by bsomers       #+#    #+#                 */
-/*   Updated: 2022/02/28 11:50:11 by bsomers       ########   odam.nl         */
+/*   Updated: 2022/03/11 10:19:49 by bsomers       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	*split_long_cmd(char *str, t_pip *doc)
 		arr = ft_split(str, '/');
 	else
 		arr = ft_split(str, '/');
+	if (arr[i] == NULL)
+		if_error();
 	while (arr[i])
 		i++;
 	final = ft_strdup(arr[i - 1]);
@@ -46,6 +48,8 @@ char	**check_if_cmd_is_path(char **arr, t_pip *doc)
 		{
 			temp = ft_strdup(arr[i]);
 			free(arr[i]);
+			if (temp == NULL)
+				if_error();
 			arr[i] = split_long_cmd(temp, doc);
 			free(temp);
 		}
@@ -69,9 +73,13 @@ char	**check_and_trim_apos(char **arr)
 		{
 			temp = ft_strdup(arr[i]);
 			free(arr[i]);
+			if (temp == NULL)
+				if_error();
 			arr[i] = ft_strtrim(temp, "'");
 			free(temp);
 		}
+		if (arr[i] == NULL)
+			if_error();
 		i++;
 	}
 	return (arr);
